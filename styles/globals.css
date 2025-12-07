@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Basic globals for the starter app */
+html, body, #__next {
+  height: 100%;
+}
+
+:root {
+  --site-max-w: 1200px;
+}
+
+.container {
+  max-width: var(--site-max-w);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* small RTL helper - toggled by adding dir="rtl" on <html> (we set via JS) */
+[dir="rtl"] .container { direction: rtl; }
