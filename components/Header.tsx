@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useLocale, useTranslations } from '../lib/i18n'
 import { useCart } from './CartProvider'
+import { useWishlist } from './WishlistProvider'
 
 export default function Header() {
   const [dark, setDark] = useState(false)
   const { locale, setLocale } = useLocale()
   const { t } = useTranslations()
   const { items, toggleOpen } = useCart()
+  const { items: wishlistItems } = useWishlist()
 
   useEffect(() => {
     const stored = localStorage.getItem('glory:dark')
@@ -39,18 +41,38 @@ export default function Header() {
           <Link href="/" className="text-xl font-bold">{t('siteTitle')}</Link>
           <nav className="hidden sm:flex gap-3 text-sm text-gray-600 dark:text-gray-300">
             <Link href="/products">{t('products')}</Link>
+            <Link href="/wishlist">{t('wishlist')}</Link>
             <Link href="/orders">{t('myOrders')}</Link>
           </nav>
         </div>
 
         <div className="flex items-center gap-3">
-          <button onClick={toggleLang} className="px-3 py-1 rounded border">
+          <button 
+            onClick={toggleLang} 
+            className="px-3 py-1 rounded border hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            aria-label={t('switchLanguage')}
+          >
             {locale === 'en' ? 'EN' : 'AR'}
           </button>
-          <button onClick={toggleDark} className="px-3 py-1 rounded border">
-            {dark ? 'Dark' : 'Light'}
+          <Link 
+            href="/wishlist" 
+            className="px-3 py-1 rounded border hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            aria-label={t('wishlist')}
+          >
+            ❤️ {wishlistItems.length > 0 ? `(${wishlistItems.length})` : ''}
+          </Link>
+          <button 
+            onClick={toggleDark} 
+            className="px-3 py-1 rounded border hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            aria-label={dark ? t('switchToLight') : t('switchToDark')}
+          >
+            {dark ? '☀️' : '🌙'}
           </button>
-          <button onClick={() => toggleOpen(true)} className="px-3 py-1 rounded bg-indigo-600 text-white">
+          <button 
+            onClick={() => toggleOpen(true)} 
+            className="px-3 py-1 rounded bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+            aria-label={t('openCart')}
+          >
             {t('cart')}{items.length > 0 ? ` (${items.length})` : ''}
           </button>
         </div>
