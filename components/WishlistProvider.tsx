@@ -15,6 +15,8 @@ export type WishlistItem = {
 export type WishlistContextType = {
   items: WishlistItem[]
   toggleWishlist: (item: WishlistItem) => void
+  removeItem: (slug: string) => void
+  clear: () => void
 }
 
 const WishlistContext = createContext<WishlistContextType | undefined>(
@@ -34,8 +36,18 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     })
   }
 
+  const removeItem = (slug: string) => {
+    setItems((prev) => prev.filter((item) => item.slug !== slug))
+  }
+
+  const clear = () => {
+    setItems([])
+  }
+
   return (
-    <WishlistContext.Provider value={{ items, toggleWishlist }}>
+    <WishlistContext.Provider
+      value={{ items, toggleWishlist, removeItem, clear }}
+    >
       {children}
     </WishlistContext.Provider>
   )
