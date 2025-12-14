@@ -79,6 +79,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               ⭐ {product.rating}
             </span>
           )}
+
           {!inStock && (
             <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
               {t("outOfStock")}
@@ -148,48 +149,4 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
     </div>
   )
-        }            {product.category}
-          </p>
-        )}
-
-        {/* Title */}
-        <Link href={`/products/${product.slug}`}>
-          <h3 className="font-semibold text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors line-clamp-2 mb-2">
-            {product.title}
-          </h3>
-        </Link>
-
-        {/* Price */}
-        <div className="mb-4 mt-auto">
-          <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-            ${product.price.toFixed(2)}
-          </p>
-        </div>
-
-        {/* Buttons */}
-        <div className="flex gap-2">
-          <Link
-            href={`/products/${product.slug}`}
-            className="flex-1 px-4 py-2 border border-indigo-600 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors text-sm font-medium"
-          >
-            {t('viewDetails')}
-          </Link>
-          <button
-            onClick={handleAddToCart}
-            disabled={!inStock}
-            className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
-          >
-            {t('addToCart')}
-          </button>
-        </div>
-
-        {/* Added Message */}
-        {showAddedMessage && (
-          <div className="mt-2 p-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded text-green-700 dark:text-green-300 text-xs text-center">
-            {t('addedToCart')} ✓
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
+            } 
