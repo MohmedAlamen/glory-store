@@ -21,7 +21,7 @@ type ProductCardProps = {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart()
-  const { items: wishlistItems, toggleWishlist } = useWishlist()
+  const { items: wishlistItems } = useWishlist()
   const { t } = useTranslations()
   const [showAddedMessage, setShowAddedMessage] = useState(false)
 
