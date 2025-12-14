@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { connect } from '../../../../lib/mongoose'
-import Order from '../../../../models/Order'
+import { connect } from '../../../lib/mongoose'
+import Order from '../../../models/Order'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', { apiVersion: '2024-08-01' })
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', { apiVersion: '2022-11-15' as any })
 
 export async function POST(req: Request) {
   try {

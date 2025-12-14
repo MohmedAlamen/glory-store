@@ -8,7 +8,11 @@ type Suggestion = {
   slug: string
 }
 
-export default function SearchBar() {
+type Props = {
+  onSearch?: (query: string) => void
+}
+
+export default function SearchBar({ onSearch }: Props) {
   const [q, setQ] = useState('')
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [open, setOpen] = useState(false)
@@ -22,6 +26,7 @@ export default function SearchBar() {
   const fetchSuggestions = debounce(async (term: string) => {
     if (!term) {
       setSuggestions([])
+      if (onSearch) onSearch('')
       return
     }
     try {
@@ -30,6 +35,7 @@ export default function SearchBar() {
       if (!mounted.current) return
       setSuggestions((data.products || []).map((p: any) => ({ title: p.title, slug: p.slug })))
       setOpen(true)
+      if (onSearch) onSearch(term)
     } catch (err) {
       console.error(err)
     }
@@ -37,13 +43,13 @@ export default function SearchBar() {
 
   useEffect(() => {
     fetchSuggestions(q)
-  }, [q])
+  }, [q, fetchSuggestions])
 
   return (
     <div className="relative w-full max-w-lg">
       <input
-        className="w-full border rounded px-3 py-2"
-        placeholder="Search watches, e.g. 'rose'"
+        className="w-full border rounded px-3 py-2 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+        placeholder="Search products..."
         value={q}
         onChange={(e) => setQ(e.target.value)}
         onFocus={() => q && setOpen(true)}
@@ -51,7 +57,7 @@ export default function SearchBar() {
       />
 
       {open && suggestions.length > 0 && (
-        <ul className="absolute left-0 right-0 mt-1 bg-white dark:bg-gray-800 border rounded shadow z-50">
+        <ul className="absolute left-0 right-0 mt-1 bg-white dark:bg-gray-800 border dark:border-gray-600 rounded shadow z-50">
           {suggestions.map((s) => (
             <li key={s.slug} className="px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
               <a href={`/products/${s.slug}`}>{s.title}</a>

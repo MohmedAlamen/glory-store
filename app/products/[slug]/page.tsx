@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
-import { connect } from '../../../../lib/mongoose'
-import Product from '../../../../models/Product'
+import { connect } from '../../../lib/mongoose'
+import Product from '../../../models/Product'
 
 export async function generateStaticParams() {
   // Minimal implementation: no pre-rendered paths
