@@ -31,7 +31,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const handleAddToCart = () => {
     addItem({
-      id: product._id || product.slug,
+      _id: product._id || product.slug,
       title: product.title,
       slug: product.slug,
       price: product.price,
