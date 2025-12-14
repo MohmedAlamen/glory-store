@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
 type CartItem = {
+  _id?: string 
   slug: string
   title: string
   price: number
