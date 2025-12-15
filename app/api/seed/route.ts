@@ -3,6 +3,8 @@ import { connect } from '../../../lib/mongoose'
 import Product from '../../../models/Product'
 import { phonesAndAccessories } from '../../../data/phones-and-accessories'
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     await connect()
