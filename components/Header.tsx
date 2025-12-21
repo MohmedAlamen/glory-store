@@ -97,6 +97,12 @@ export default function Header() {
                 href="/dashboard" 
                 className="px-2 py-1 text-xs sm:px-3 sm:py-1 sm:text-sm rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors hidden sm:block"
               >
+                📦 {t('orderHistory')}
+              </Link>
+              <Link 
+                href="/dashboard" 
+                className="px-2 py-1 text-xs sm:px-3 sm:py-1 sm:text-sm rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors hidden sm:block"
+              >
                 👤 {user.name.split(' ')[0]}
               </Link>
               <button 
@@ -155,14 +161,25 @@ export default function Header() {
             <Link href="/about" className="block text-sm hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
               {t('about')}
             </Link>
-            <Link href="/contact" className="block text-sm hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-              {t('contact')}
-            </Link>
-            {user && (
-              <Link href="/dashboard" className="block text-sm hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-                Dashboard
-              </Link>
-            )}
+	            <Link href="/contact" className="block text-sm hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+	              {t('contact')}
+	            </Link>
+	            {user && (
+	              <>
+	                <Link 
+	                  href="/dashboard" 
+	                  className="block text-sm hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+	                >
+	                  {t('dashboard')}
+	                </Link>
+	                <Link 
+	                  href="/order-history" 
+	                  className="block text-sm hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+	                >
+	                  {t('orderHistory')}
+	                </Link>
+	              </>
+	            )}
           </nav>
         </div>
       )}

@@ -9,6 +9,7 @@ export interface IProduct extends Document {
   category: string
   inventory: number
   rating?: number
+  reviewCount?: number
 }
 
 const ProductSchema: Schema = new Schema({
@@ -19,7 +20,8 @@ const ProductSchema: Schema = new Schema({
   images: { type: [String], default: [] },
   category: { type: String, default: 'Watches' },
   inventory: { type: Number, default: 0 },
-  rating: { type: Number, default: 0 }
+  rating: { type: Number, default: 0 },
+  reviewCount: { type: Number, default: 0 }
 }, { timestamps: true })
 
 // Prevent model overwrite upon hot reloads in dev
