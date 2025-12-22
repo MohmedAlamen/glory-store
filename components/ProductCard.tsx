@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useCart } from "./CartProvider"
 import { useWishlist } from "./WishlistProvider"
 import { useTranslations } from "../lib/i18n"
+import { useComparison } from "./ProductComparisonProvider"
 
 type ProductCardProps = {
   product: {
@@ -22,16 +23,19 @@ type ProductCardProps = {
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart()
   const { items: wishlistItems, toggleWishlist } = useWishlist()
+  const { addToComparison, removeFromComparison, isComparing, maxProducts } = useComparison()
   const { t } = useTranslations()
   const [showAddedMessage, setShowAddedMessage] = useState(false)
 
   const isInWishlist = wishlistItems.some(
-    (item) => item.slug === product.slug
+      (item) => item.slug === product.slug
   )
+
+  const isProductComparing = product._id ? isComparing(product._id) : false
 
   const image =
     product.images?.[0] ||
-    `https://via.placeholder.com/300x300?text=${encodeURIComponent(
+    `https://via.placeholder.com/400x400?text=${encodeURIComponent(
       product.title
     )}`
 
@@ -60,6 +64,26 @@ export default function ProductCard({ product }: ProductCardProps) {
       category: product.category || "Uncategorized",
       rating: product.rating,
     })
+  }
+
+  const handleCompare = () => {
+    if (!product._id) return
+
+    const productForComparison = {
+      _id: product._id,
+      title: product.title,
+      slug: product.slug,
+      price: product.price,
+      category: product.category || "Uncategorized",
+      description: "N/A", // Placeholder, ideally fetched from product details
+      rating: product.rating,
+    }
+
+    if (isProductComparing) {
+      removeFromComparison(product._id)
+    } else {
+      addToComparison(productForComparison)
+    }
   }
 
   return (
@@ -122,9 +146,22 @@ export default function ProductCard({ product }: ProductCardProps) {
           </p>
         </div>
 
-        {/* Buttons */}
-        <div className="flex gap-2">
-          <Link
+	        {/* Buttons */}
+	        <div className="flex gap-2 mb-2">
+	          <button
+	            onClick={handleCompare}
+	            disabled={!product._id}
+	            className={`flex-1 px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
+	              isProductComparing
+	                ? 'bg-yellow-500 text-white hover:bg-yellow-600'
+	                : 'bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600'
+	            }`}
+	          >
+	            {isProductComparing ? t('remove_from_compare') : t('add_to_compare')}
+	          </button>
+	        </div>
+	        <div className="flex gap-2">
+	          <Link
             href={`/products/${product.slug}`}
             className="flex-1 px-4 py-2 border border-indigo-600 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors text-sm font-medium"
           >

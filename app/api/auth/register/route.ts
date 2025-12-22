@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { connect } from '../../../../lib/mongoose'
 import User from '../../../../models/User'
 import bcrypt from 'bcryptjs'
+import { sendEmail } from '../../../../lib/email'
 
 export async function POST(req: Request) {
   try {
@@ -49,6 +50,18 @@ export async function POST(req: Request) {
       email: email.toLowerCase(),
       password: hashedPassword,
     })
+
+    // Send welcome email
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: 'Welcome to Glory Store!',
+        body: `Dear ${user.name},\n\nThank you for registering with Glory Store. We are excited to have you on board!\n\nStart shopping now: [Link to your store]\n\nBest regards,\nThe Glory Store Team`,
+      })
+    } catch (emailError) {
+      console.error('Failed to send welcome email:', emailError)
+      // Continue execution even if email fails
+    }
 
     return NextResponse.json(
       {
