@@ -35,7 +35,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const image =
     product.images?.[0] ||
-    `https://via.placeholder.com/300x300?text=${encodeURIComponent(
+    `https://via.placeholder.com/400x400?text=${encodeURIComponent(
       product.title
     )}`
 
